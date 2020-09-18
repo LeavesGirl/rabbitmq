@@ -8,14 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.mhou.rabbitmq.delay.DelayMQConfig.*;
 
-
-/**
- * Description:  TODO
- *
- * @author houmingye（minguye.hou01@ucarinc.com）
- * @version 1.0
- * @date 2020-08-17 14:28
- */
 @RestController
 @Slf4j
 public class DelaySender {

@@ -1,21 +1,16 @@
 package com.mhou.rabbitmq.delay;
 
 import org.springframework.amqp.core.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * Description:  延时队列配置
- *
- * @author houmingye（minguye.hou01@ucarinc.com）
- * @version 1.0
- * @date 2020-08-17 14:27
- */
 @Configuration
+@ConditionalOnProperty("rabbitmq.test.delay")
 public class DelayMQConfig {
 
     // 业务队列交换机
@@ -85,5 +80,12 @@ public class DelayMQConfig {
     @Bean
     Binding deadLetterBinding(DirectExchange deadLetterExchange, Queue deadLetterQueue) {
         return BindingBuilder.bind(deadLetterQueue).to(deadLetterExchange).with(DEADLETTER_ROUTING_KEY);
+    }
+
+    //先初始化队列
+    @Bean
+    @ConditionalOnBean(Queue.class)
+    DelayConsumer delayConsumer() {
+        return new DelayConsumer();
     }
 }
